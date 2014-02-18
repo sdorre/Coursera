@@ -156,7 +156,7 @@ public class ToDoListAdapter extends BaseAdapter {
 				}else{
 					toDoItem.setStatus(Status.NOTDONE);
 					statusView.setChecked(false);
-					itemLayout.setBackgroundColor(Color.GRAY);
+					itemLayout.setBackgroundColor(Color.BLUE);
 				}
 
 			
