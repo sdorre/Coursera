@@ -22,11 +22,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+//import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
+//import android.view.View.OnCreateContextMenuListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import course.examples.UI.MenuExample.R;
+//import course.examples.UI.MenuExample.R;
 import course.labs.todomanager.ToDoItem.Priority;
 import course.labs.todomanager.ToDoItem.Status;
 
@@ -43,16 +47,20 @@ public class ToDoManagerActivity extends ListActivity {
 	private static final int MENU_DUMP = Menu.FIRST + 1;
 
 	ToDoListAdapter mAdapter;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		
 		// Create a new TodoListAdapter for this ListActivity's ListView
 		mAdapter = new ToDoListAdapter(getApplicationContext());
-
+		
+		ListView mListView = getListView();
+		
 		// Put divider between ToDoItems and FooterView
-		getListView().setFooterDividersEnabled(true);
+		mListView.setFooterDividersEnabled(true);
 
 		//TODO - Inflate footerView for footer_view.xml file
 		TextView footerView = null;
@@ -60,7 +68,7 @@ public class ToDoManagerActivity extends ListActivity {
 		footerView = (TextView)inflater.inflate(R.layout.footer_view, null);
 		
 		//TODO - Add footerView to ListView
-		getListView().addFooterView(footerView);
+		mListView.addFooterView(footerView);
 		
 		footerView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -75,11 +83,41 @@ public class ToDoManagerActivity extends ListActivity {
 		});
 
 		//TODO - Attach the adapter to this ListActivity's ListView
-		getListView().setAdapter(mAdapter);
+		mListView.setAdapter(mAdapter);
 		
-		registerForContextMenu(getListView());
+		registerForContextMenu(mListView);
 		
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
 		
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
+		ToDoItem toDo = (ToDoItem)mAdapter.getItem(info.position);
+		
+	    super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+	    menu.setHeaderTitle(toDo.getTitle());    
+     
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		ToDoItem toDo = (ToDoItem)mAdapter.getItem(info.position);
+		
+		switch (item.getItemId()) {
+		case R.id.menu_delete:
+			mAdapter.remove(info.position);
+			Toast.makeText(getApplicationContext(), "this element will be delete "+toDo.getTitle(),
+					Toast.LENGTH_SHORT).show();
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	@Override
@@ -145,25 +183,6 @@ public class ToDoManagerActivity extends ListActivity {
 		}
 	}
 	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.context_menu, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.help_guide:
-			Toast.makeText(getApplicationContext(), "ContextMenu Shown",
-					Toast.LENGTH_SHORT).show();
-			return true;
-		default:
-			return false;
-		}
-	}
 
 	private void dump() {
 

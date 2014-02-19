@@ -10,19 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+//import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.AdapterView.OnItemSelectedListener;
+//import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.AdapterView;
+//import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
+//import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-import course.labs.todomanager.ToDoItem.Priority;
+//import android.widget.Toast;
+//import course.labs.todomanager.ToDoItem.Priority;
 import course.labs.todomanager.ToDoItem.Status;
 
 public class ToDoListAdapter extends BaseAdapter {
@@ -60,6 +60,15 @@ public class ToDoListAdapter extends BaseAdapter {
 		mItems.clear();
 		notifyDataSetChanged();
 	
+	}
+	
+	// remove the ToDoObject selected
+	
+	public void remove(int position){
+		
+		mItems.remove(position);
+		notifyDataSetChanged();
+		
 	}
 
 	// Returns the number of ToDoItems
