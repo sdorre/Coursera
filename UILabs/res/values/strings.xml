@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">UILabs</string>
     <string name="done_string">Done:</string>
-    <string name="priority_string">Priority:</string>
+    <string name="priority_string">Priority</string>
     <string name="date_string">Date:</string>
     <string name="add_new_todo_item_string">Add New ToDo Item</string>
     <string name="title_string">Title</string>
