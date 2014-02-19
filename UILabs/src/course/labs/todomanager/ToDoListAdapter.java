@@ -156,7 +156,7 @@ public class ToDoListAdapter extends BaseAdapter {
 				}else{
 					toDoItem.setStatus(Status.NOTDONE);
 					statusView.setChecked(false);
-					itemLayout.setBackgroundColor(Color.BLUE);
+					itemLayout.setBackgroundColor(Color.GRAY);
 				}
 
 			
@@ -190,6 +190,7 @@ public class ToDoListAdapter extends BaseAdapter {
 
 		final TextView dateView = (TextView)itemLayout.findViewById(R.id.dateView);
 		dateView.setText(toDoItem.FORMAT.format(toDoItem.getDate()));
+		
 		
 
 		// Return the View you just created

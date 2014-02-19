@@ -16,12 +16,17 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
+import course.examples.UI.MenuExample.R;
 import course.labs.todomanager.ToDoItem.Priority;
 import course.labs.todomanager.ToDoItem.Status;
 
@@ -71,6 +76,10 @@ public class ToDoManagerActivity extends ListActivity {
 
 		//TODO - Attach the adapter to this ListActivity's ListView
 		getListView().setAdapter(mAdapter);
+		
+		registerForContextMenu(getListView());
+		
+		
 	}
 
 	@Override
@@ -133,6 +142,26 @@ public class ToDoManagerActivity extends ListActivity {
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.help_guide:
+			Toast.makeText(getApplicationContext(), "ContextMenu Shown",
+					Toast.LENGTH_SHORT).show();
+			return true;
+		default:
+			return false;
 		}
 	}
 

@@ -37,6 +37,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="17dp"
+        android:layout_marginLeft="5dp"
         android:text="@string/done_string" >
     </TextView>
 
@@ -45,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="48dp"
         android:layout_toRightOf="@+id/StatusLabel" >
     </CheckBox>
 
@@ -65,7 +66,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/statusCheckBox"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/StatusLabel" >
+        android:layout_alignTop="@+id/StatusLabel"
+        android:paddingLeft="10dp"
+        android:textStyle="bold" >
+
     </TextView>
 
     <TextView
@@ -73,6 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
         android:layout_below="@+id/statusCheckBox"
         android:text="@string/date_string" >
     </TextView>
@@ -81,8 +86,10 @@
         android:id="@+id/dateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
         android:layout_alignBaseline="@+id/DateLabel"
-        android:layout_toRightOf="@+id/DateLabel" >
+        android:layout_toRightOf="@+id/DateLabel"
+        android:textStyle="bold" >
     </TextView>
 
 

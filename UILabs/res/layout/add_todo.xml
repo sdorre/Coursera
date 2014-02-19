@@ -10,7 +10,7 @@
         android:id="@+id/TitleLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:text="@string/title_string"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:typeface="monospace" >
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/TitleLabel"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/enter_title_string" 
         android:inputType="textShortMessage">
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/title"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
         android:text="@string/status_string"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/statusGroup"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
         android:text="@string/priority_string"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/priorityGroup"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
         android:text="@string/time_and_date_string"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -132,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/time_and_date"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="6dp"
         android:text="@string/no_date_set_string" />
 
