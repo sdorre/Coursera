@@ -26,10 +26,11 @@ public class ToDoItem {
 		
 		@Override
 		public String toString(){
-			return this.priorityString;
+			return priorityString;
 		}
+		
 	};
-
+	
 	public enum Status {
 		NOTDONE, DONE
 	};

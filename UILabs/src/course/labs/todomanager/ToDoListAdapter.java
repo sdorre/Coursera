@@ -10,19 +10,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-//import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.AdapterView.OnItemSelectedListener;
 //import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 //import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-//import android.widget.Spinner;
+import android.widget.Spinner;
 import android.widget.TextView;
-//import android.widget.Toast;
-//import course.labs.todomanager.ToDoItem.Priority;
+import course.labs.todomanager.ToDoItem.Priority;
 import course.labs.todomanager.ToDoItem.Status;
 
 public class ToDoListAdapter extends BaseAdapter {
@@ -31,6 +32,10 @@ public class ToDoListAdapter extends BaseAdapter {
 	private final List<ToDoItem> mItems = new ArrayList<ToDoItem>();
 	
 	private final Context mContext;
+	
+	//counter for not calling the Spinner action during initialisation
+	private int initializedCount = 0;
+	private int count = 0;
 
 	private static final String TAG = "Lab-UserInterface";
 	
@@ -174,33 +179,37 @@ public class ToDoListAdapter extends BaseAdapter {
 
 		//TODO - Display Priority in a TextView
 
-		final TextView priorityView = (TextView)itemLayout.findViewById(R.id.priorityView);
-		
-		priorityView.setText(toDoItem.getPriority().toString());
-		
-		/*ArrayAdapter<Priority> adapter = new ArrayAdapter<Priority>(this, android.R.layout.simple_spinner_item, Priority.values());
+		//final TextView priorityView = (TextView)itemLayout.findViewById(R.id.priorityView);
+		//priorityView.setText(toDoItem.getPriority().toString());
 
+		// Display Priority in a Spinner
+		Spinner priorityView = (Spinner) itemLayout.findViewById(R.id.priorityView);
+		priorityView.setAdapter(new ArrayAdapter<Priority>(mContext, android.R.layout.simple_spinner_item, Priority.values()));
 		
-		priorityView.setAdapter(new ArrayAdapter<Priority>(this,android.R.layout.simple_spinner_item, Priority.values());
+		priorityView.setSelection(Priority.valueOf(toDoItem.getPriority().toString()).ordinal());
+		
 		priorityView.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int pos, long id) {
-
-				toDoItem.setPriority(Priority.HIGH);
+				
+				if (initializedCount < count){
+					initializedCount++;
+				}else{
+					toDoItem.setPriority(Priority.valueOf(parent.getItemAtPosition(pos).toString()));	
+				}
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-		*/
-		
+	
 		// TODO - Display Time and Date. 
 		// Hint - use ToDoItem.FORMAT.format(toDoItem.getDate()) to get date and time String
 
 		final TextView dateView = (TextView)itemLayout.findViewById(R.id.dateView);
 		dateView.setText(toDoItem.FORMAT.format(toDoItem.getDate()));
 		
-		
+		count = getCount();
 
 		// Return the View you just created
 		return itemLayout;
