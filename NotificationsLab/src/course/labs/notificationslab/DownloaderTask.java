@@ -17,6 +17,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -157,6 +158,11 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 
 					final String failMsg = "Download has failed. Please retry Later.";
 					final String successMsg = "Download completed successfully.";
+					
+					private Uri soundURI = Uri
+							.parse("android.resource://course.lab.notificationslab/"
+									+ R.raw.alarm_rooster);
+					private long[] mVibratePattern = { 0, 200, 200, 300 };
 
 					@Override
 					public void onReceive(Context context, Intent intent) {
@@ -205,11 +211,14 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							// for the small icon. You should also setAutoCancel(true). 
 
 							Notification.Builder notificationBuilder = new Notification.Builder(mApplicationContext)
+													.setTicker("Notification !!")
 													.setContent(mContentView)
 													.setSmallIcon(android.R.drawable.stat_sys_warning)
 													.setContentIntent(pendingIntent)
-													.setAutoCancel(true);
-
+													.setAutoCancel(true)
+													.setVibrate(mVibratePattern)
+													.setSound(soundURI);
+							
 							// TODO: Send the notification
 
 							NotificationManager mNotification = (NotificationManager)mParentActivity.getSystemService(Context.NOTIFICATION_SERVICE);
