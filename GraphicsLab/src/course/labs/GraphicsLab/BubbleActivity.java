@@ -72,7 +72,7 @@ public class BubbleActivity extends Activity {
 
 		// Load basic bubble Bitmap
 		mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.b64);
-
+		
 	}
 
 	@Override
@@ -133,13 +133,14 @@ public class BubbleActivity extends Activity {
 			public boolean onFling(MotionEvent event1, MotionEvent event2,
 					float velocityX, float velocityY) {
 
+				
 				// TODO - Implement onFling actions.
 				// You can get all Views in mFrame using the
 				// ViewGroup.getChildCount() method
 				for(int i =0; i < mFrame.getChildCount(); i++){
 					BubbleView mBubble = (BubbleView)mFrame.getChildAt(i);
-					if (mBubble.intersects(event1.getX(), event1.getY())){
-						//
+					if (mBubble.intersects(event1.getRawX(), event1.getRawY())){
+						
 						mBubble.deflect(velocityX, velocityY);
 						return true;
 					}
@@ -162,21 +163,19 @@ public class BubbleActivity extends Activity {
 
 				for (int j=0; j<mFrame.getChildCount(); j++){
 					BubbleView mBubble = (BubbleView)mFrame.getChildAt(j);
-					if (mBubble.intersects(event.getX(), event.getY())){
+					
+					if (mBubble.intersects(event.getRawX(), event.getRawY())){
+					
 						// stop with "pop!"
 						mBubble.stop(true);
 						return true;
 					}
 				}
 				
-				try{
-					BubbleView mBubble = new BubbleView(mFrame.getContext(), event.getX(), event.getY());
-					mBubble.start();
-					mFrame.addView(mBubble);
-					return true;
-				} catch (Exception e) {
-					return false;
-				}
+				BubbleView mBubble = new BubbleView(BubbleActivity.this, event.getX(), event.getY());
+				mFrame.addView(mBubble);
+				mBubble.start();
+				return true;
 			}
 		});
 	}
@@ -251,8 +250,7 @@ public class BubbleActivity extends Activity {
 			if (speedMode == RANDOM) {
 				
 				// TODO - set rotation in range [1..3]
-				mDRotate = 1+((long)(r.nextDouble()*(3-1)));
-
+				mDRotate = 1+((long)(r.nextInt(4-1)));
 				
 			} else {
 			
@@ -285,8 +283,8 @@ public class BubbleActivity extends Activity {
 				// TODO - Set movement direction and speed
 				// Limit movement speed in the x and y
 				// direction to [-3..3].
-				mDx = -3 + (r.nextFloat()*(3-(-3)));
-				mDy = -3 + (r.nextFloat()*(3-(-3)));
+				mDx = -3 + (r.nextInt(4-(-3)));
+				mDy = -3 + (r.nextInt(4-(-3)));
 				
 			}
 		}
@@ -300,7 +298,7 @@ public class BubbleActivity extends Activity {
 			} else {
 			
 				//TODO - set scaled bitmap size in range [1..3] * BITMAP_SIZE
-				mScaledBitmapWidth = (1 + (r.nextInt()*(3-1))) * BITMAP_SIZE;
+				mScaledBitmapWidth = (1 + (r.nextInt(4-1))) * BITMAP_SIZE;
 			
 			}
 
@@ -331,11 +329,9 @@ public class BubbleActivity extends Activity {
 						
 						stop(false);
 						
-					}else{
-						
+					}						
 						BubbleView.this.postInvalidate();
 						
-					}
 				}
 			}, 0, REFRESH_RATE, TimeUnit.MILLISECONDS);
 		}
@@ -343,8 +339,10 @@ public class BubbleActivity extends Activity {
 		private synchronized boolean intersects(float x, float y) {
 
 			// TODO - Return true if the BubbleView intersects position (x,y)
-			if ((Math.pow(Math.abs(this.mXPos-x),2.0) + Math.pow(Math.abs(this.mYPos+y), 2.0)) 
-					== Math.pow((mScaledBitmapWidth/2), 2.0)){
+			float ctrX = mXPos+mScaledBitmapWidth/2;
+			float ctrY = mYPos+mScaledBitmapWidth/2;
+			
+			if (Math.hypot(ctrX-x, ctrY-y) < (mScaledBitmapWidth/2) ){
 				return true;
 			}else{
 				return false;
@@ -407,9 +405,10 @@ public class BubbleActivity extends Activity {
 			// TODO - increase the rotation of the original image by mDRotate
 			mRotate += mDRotate;
 
-			
+			float ctrX = mXPos+(mScaledBitmapWidth/2);
+			float ctrY = mYPos+(mScaledBitmapWidth/2);
 			// TODO Rotate the canvas by current rotation
-			canvas.rotate(mRotate);
+			canvas.rotate(mRotate, ctrX, ctrY);
 			
 			
 			// TODO - draw the bitmap at it's new location
@@ -418,7 +417,6 @@ public class BubbleActivity extends Activity {
 			
 			// TODO - restore the canvas
 			canvas.restore();
-
 			
 		}
 
@@ -436,10 +434,15 @@ public class BubbleActivity extends Activity {
 		private boolean isOutOfView() {
 
 			// TODO - Return true if the BubbleView has exited the screen
-			if ((mXPos-mScaledBitmapWidth/2) > mDisplayWidth || (mXPos+mScaledBitmapWidth/2) < 0 ||
-						(mYPos-mScaledBitmapWidth/2) > mDisplayHeight || (mYPos+mScaledBitmapWidth/2) < 0 ){
+			
+			float extX = mXPos+mScaledBitmapWidth;
+			float extY = mYPos+mScaledBitmapWidth;
+			
+			if (mXPos > mDisplayWidth || extX < 0 || mYPos > mDisplayHeight || extY < 0 ){
+				
 				return true;
 			}else{
+				
 				return false;
 			}
 		}
