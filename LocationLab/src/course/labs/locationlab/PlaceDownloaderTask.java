@@ -30,7 +30,7 @@ import android.util.Log;
 public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> {
 
 	// TODO - put your www.geonames.org account name here.
-	private static String USERNAME = "YOUR USERNAME HERE";
+	private static String USERNAME = "st333f";
 
 	private HttpURLConnection mHttpUrl;
 	private WeakReference<PlaceViewActivity> mParent;
@@ -101,6 +101,8 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 
 	private Bitmap getFlagFromURL(String flagUrl) {
 
+		PlaceViewActivity.log("Starting Place Download");
+		
 		InputStream in = null;
 
 		try {
