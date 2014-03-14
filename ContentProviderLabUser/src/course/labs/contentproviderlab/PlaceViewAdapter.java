@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,6 +139,8 @@ public class PlaceViewAdapter extends CursorAdapter {
 
 	public void add(PlaceRecord listItem) {
 
+		Log.i("TEST", "entered in add method, listItem is :" + listItem);
+		Log.i("TEST", "properties are flagUrl:" + listItem.getFlagUrl());
 		String lastPathSegment = Uri.parse(listItem.getFlagUrl())
 				.getLastPathSegment();
 		String filePath = mBitmapStoragePath + "/" + lastPathSegment;

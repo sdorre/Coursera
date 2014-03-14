@@ -50,14 +50,18 @@ public class PlaceViewActivity extends ListActivity implements
 	// A fake location provider used for testing
 	private MockLocationProvider mMockLocationProvider;
 	
-	private Context mContext = getApplicationContext();
+	private Context mContext;
 	
-	private LoaderManager mLoaderManager = getLoaderManager();
+	private LoaderManager mLoaderManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		mContext = getApplicationContext();
+		mLoaderManager  = getLoaderManager();
+		mLocationManager = (LocationManager)mContext.getSystemService(LOCATION_SERVICE);
+		
         // TODO - Set up the app's user interface
         // This class is a ListActivity, so it has its own ListView
 		ListView listView = getListView();
