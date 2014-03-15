@@ -125,6 +125,7 @@ public class PlaceViewActivity extends ListActivity implements
         // ListView's adapter should be a PlaceViewAdapter called mCursorAdapter
 		
 		mCursorAdapter = new PlaceViewAdapter(mContext, null, 0);
+		//mCursorAdapter.removeAllViews();
 		listView.setAdapter(mCursorAdapter);
 		
 		// TODO - Initialize a CursorLoader
@@ -168,9 +169,9 @@ public class PlaceViewActivity extends ListActivity implements
 	public void addNewPlace(PlaceRecord place) {
 
 		log("Entered addNewPlace()");
-
+		Log.i("TEST", "place properties : FlagUrl : " + place.getFlagUrl());
 		mCursorAdapter.add(place);
-
+		Log.i("TEST", "quit addNewPlaceMethod");
 	}
 
 	@Override
@@ -214,7 +215,7 @@ public class PlaceViewActivity extends ListActivity implements
 		log("Entered onCreateLoader()");
 
 		// TODO - Create a new CursorLoader and return it
-		CursorLoader cursor = new CursorLoader(this, PlaceBadgesContract.CONTENT_URI, null, null, null, null);
+		CursorLoader cursor = new CursorLoader(mContext, PlaceBadgesContract.CONTENT_URI, null, null, null, null);
         
         return cursor;
 	}
