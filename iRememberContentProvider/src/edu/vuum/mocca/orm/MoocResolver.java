@@ -268,7 +268,7 @@ public class MoocResolver {
 				selectionArgs, sortOrder);
 		// make return object
 		ArrayList<StoryData> rValue = new ArrayList<StoryData>();
-		// convert cursor to reutrn object
+		// convert cursor to return object
 		rValue.addAll(StoryCreator.getStoryDataArrayListFromCursor(result));
 		result.close();
 		// return 'return object'
