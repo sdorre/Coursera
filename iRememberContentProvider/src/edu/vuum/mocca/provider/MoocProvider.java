@@ -145,8 +145,15 @@ public class MoocProvider extends ContentProvider {
             final String[] selectionArgs, final String sortOrder) {
 
         // TODO: Perform a query on the database with the given parameters
-    	return mDB.query(tableName, projection, selection, selectionArgs, sortOrder);
- 
+    	SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+    	
+    	qb.setTables(tableName);
+    	
+    	Cursor c = qb.query(mDB.getDB(), projection, selection, selectionArgs, null, null, sortOrder);
+    	c.setNotificationUri(getContext().getContentResolver(), uri);
+    	
+    	return c;
+    	
     }
 
     @Override
