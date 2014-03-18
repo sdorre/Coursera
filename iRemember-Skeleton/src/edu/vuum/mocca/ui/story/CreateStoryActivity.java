@@ -299,6 +299,7 @@ public class CreateStoryActivity extends StoryActivityBase {
 		// code CAMERA_VIDEO_REQUEST
 		startActivityForResult(cameraVideoIntent, CAMERA_VIDEO_REQUEST);
 	
+		
 	}
 
 }
