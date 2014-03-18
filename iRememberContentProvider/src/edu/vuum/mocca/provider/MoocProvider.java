@@ -153,6 +153,7 @@ public class MoocProvider extends ContentProvider {
     	c.setNotificationUri(getContext().getContentResolver(), uri);
     	
     	return c;
+    
     	
     }
 
