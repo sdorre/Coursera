@@ -129,7 +129,7 @@ public class SoundRecordActivity extends Activity {
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
         }
-        Log.i("TEST", "mFilename is : "+ mFileName);
+
         mRecorder.start();
     }
 
@@ -210,8 +210,7 @@ public class SoundRecordActivity extends Activity {
         
 
     	Intent caller = getIntent();
-    	Log.i("TEST", "caller is " + caller);
-    	Log.i("TEST", "getStringExtra() give : " +caller.getStringExtra(EXTRA_OUTPUT));
+
     	mFileName = caller.getStringExtra(EXTRA_OUTPUT);
     	
 		Log.i("zzz", "Filename variable is : " + mFileName);

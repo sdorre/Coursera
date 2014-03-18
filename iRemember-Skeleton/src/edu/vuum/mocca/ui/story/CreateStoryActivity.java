@@ -265,8 +265,7 @@ public class CreateStoryActivity extends StoryActivityBase {
 		// TODO - Add the filename to the Intent as an extra. Use the Intent-extra name
 		// from the MediaStore class, EXTRA_OUTPUT
 		
-		// not necessary because the Uri variable named "imagePath" of the CreateStoryFragment(see line 263
-		//cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile.getPath());
+		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fragment.imagePath);
 		
 		// TODO - Start a new activity for result, using the new intent and the request
 		// code CAMERA_PIC_REQUEST
@@ -284,11 +283,12 @@ public class CreateStoryActivity extends StoryActivityBase {
 		
 		// TODO - Set the fileUri for this video file using the pre-made function
 		// getOutputMediaFile to create a new filename for this specific video;
-		File videoFile = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+		//File videoFile = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+		fragment.fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
 		
 		// TODO - Add the filename to the Intent as an extra. Use the Intent-extra name
 		// from the MediaStore class, EXTRA_OUTPUT
-		cameraVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoFile.getPath());
+		cameraVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fragment.fileUri.getPath());
 		
 		// TODO - Specify as an extra that the video quality should be HIGH. Use the
 		// Intent-extra name, EXTRA_VIDEO_QUALITY, from the MediaStore class

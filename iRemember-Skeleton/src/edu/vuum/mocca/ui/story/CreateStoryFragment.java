@@ -313,6 +313,8 @@ public class CreateStoryFragment extends Fragment {
 			if (resultCode == CreateStoryActivity.RESULT_OK) {
 				// Image captured and saved to fileUri specified in the Intent
 				imagePathFinal = imagePath;
+				Log.i("TEST", "path to image : " + imagePathFinal.toString());
+				
 				imageLocation.setText(imagePathFinal.toString());
 			} else if (resultCode == CreateStoryActivity.RESULT_CANCELED) {
 				// User cancelled the image capture
@@ -324,6 +326,8 @@ public class CreateStoryFragment extends Fragment {
 				// Image captured and saved to fileUri specified in the Intent
 				// fileUriFinal = fileUri;
 				fileUri = data.getData();
+				Log.i("TEST", "path to video : " + fileUri.toString());
+
 				videoLocation.setText(fileUri.toString());
 			} else if (resultCode == CreateStoryActivity.RESULT_CANCELED) {
 				// User cancelled the image capture
@@ -336,6 +340,8 @@ public class CreateStoryFragment extends Fragment {
 				// Image captured and saved to fileUri specified in the Intent
 				// fileUriFinal = fileUri;
 				audioPath = (String) data.getExtras().get("data");
+				Log.i("TEST", "path to sound : " + audioPath.toString());
+				
 				audioLocation.setText("file://" + audioPath.toString());
 			} else if (resultCode == CreateStoryActivity.RESULT_CANCELED) {
 				// User cancelled the image capture
