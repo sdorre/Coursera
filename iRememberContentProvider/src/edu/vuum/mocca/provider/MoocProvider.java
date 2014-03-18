@@ -154,7 +154,6 @@ public class MoocProvider extends ContentProvider {
     	
     	return c;
     	
-    	
     }
 
     @Override

@@ -194,7 +194,6 @@ public class MoocDataDBAdapter {
   
     }
 
-    
     /**
      * close the DB.
      */
