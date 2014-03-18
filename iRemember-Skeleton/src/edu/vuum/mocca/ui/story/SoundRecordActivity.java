@@ -210,9 +210,10 @@ public class SoundRecordActivity extends Activity {
         
 
     	Intent caller = getIntent();
+
     	mFileName = caller.getStringExtra(EXTRA_OUTPUT);
     	
-		Log.i("zzz", mFileName);
+		Log.i("zzz", "Filename variable is : " + mFileName);
     }
 
     @Override

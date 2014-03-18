@@ -238,9 +238,10 @@ public class CreateStoryActivity extends StoryActivityBase {
 		// filename for this specific sound file
 		File soundFile = getOutputMediaFile(MEDIA_TYPE_AUDIO);
 		
+		Log.i("TEST", "soundFile is : "+ soundFile);
 		// TODO - Add the filename to the Intent as an extra. Use the Intent-extra name
 		// from the SoundRecordActivity class, EXTRA_OUTPUT
-		soundActivityIntent.putExtra(SoundRecordActivity.EXTRA_OUTPUT, soundFile);
+		soundActivityIntent.putExtra(SoundRecordActivity.EXTRA_OUTPUT, soundFile.getPath());
 		
 		// TODO - Start a new activity for result, using the new intent and the request
 		// code MIC_SOUND_REQUEST
@@ -258,11 +259,13 @@ public class CreateStoryActivity extends StoryActivityBase {
 		
 		// TODO - Set the imagePath for this image file using the pre-made function
 		// getOutputMediaFile to create a new filename for this specific image;
-		File photoFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+		//File photoFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+		fragment.imagePath = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
 		
 		// TODO - Add the filename to the Intent as an extra. Use the Intent-extra name
 		// from the MediaStore class, EXTRA_OUTPUT
-		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile);
+		
+		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fragment.imagePath);
 		
 		// TODO - Start a new activity for result, using the new intent and the request
 		// code CAMERA_PIC_REQUEST
@@ -280,11 +283,12 @@ public class CreateStoryActivity extends StoryActivityBase {
 		
 		// TODO - Set the fileUri for this video file using the pre-made function
 		// getOutputMediaFile to create a new filename for this specific video;
-		File videoFile = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+		//File videoFile = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+		fragment.fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
 		
 		// TODO - Add the filename to the Intent as an extra. Use the Intent-extra name
 		// from the MediaStore class, EXTRA_OUTPUT
-		cameraVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoFile);
+		cameraVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fragment.fileUri.getPath());
 		
 		// TODO - Specify as an extra that the video quality should be HIGH. Use the
 		// Intent-extra name, EXTRA_VIDEO_QUALITY, from the MediaStore class
@@ -295,6 +299,7 @@ public class CreateStoryActivity extends StoryActivityBase {
 		// code CAMERA_VIDEO_REQUEST
 		startActivityForResult(cameraVideoIntent, CAMERA_VIDEO_REQUEST);
 	
+		
 	}
 
 }
