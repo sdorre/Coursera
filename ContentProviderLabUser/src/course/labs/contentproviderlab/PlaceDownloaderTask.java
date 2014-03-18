@@ -1,4 +1,4 @@
-package course.labs.locationlab;
+package course.labs.contentproviderlab;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,34 +24,70 @@ import org.xml.sax.SAXException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> {
+
+	// Change to false if you don't have network access
+	private static final boolean HAS_NETWORK = true;
 
 	// TODO - put your www.geonames.org account name here.
 	private static String USERNAME = "st333f";
 
 	private HttpURLConnection mHttpUrl;
 	private WeakReference<PlaceViewActivity> mParent;
+	private static Bitmap mStubBitmap;
+	private static Location mockLoc1 = new Location(
+			LocationManager.NETWORK_PROVIDER);
+	private static Location mockLoc2 = new Location(
+			LocationManager.NETWORK_PROVIDER);
 
 	public PlaceDownloaderTask(PlaceViewActivity parent) {
 		super();
 		mParent = new WeakReference<PlaceViewActivity>(parent);
+
+		if (!HAS_NETWORK) {
+			mStubBitmap = BitmapFactory.decodeResource(parent.getResources(),
+					R.drawable.stub);
+			mockLoc1.setLatitude(37.422);
+			mockLoc1.setLongitude(-122.084);
+			mockLoc2.setLatitude(38.996667);
+			mockLoc2.setLongitude(-76.9275);
+		}
 	}
 
 	@Override
 	protected PlaceRecord doInBackground(Location... location) {
 
-		PlaceRecord place = getPlaceFromURL(generateURL(USERNAME, location[0]));
+		PlaceRecord place = null;
 
-		if ("" != place.getCountryName()) {
-			place.setLocation(location[0]);
-			place.setFlagBitmap(getFlagFromURL(place.getFlagUrl()));
+		if (HAS_NETWORK) {
+
+			place = getPlaceFromURL(generateURL(USERNAME, location[0]));
+
+			if ("" != place.getCountryName()) {
+				place.setLocation(location[0]);
+				place.setFlagBitmap(getFlagFromURL(place.getFlagUrl()));
+			} else {
+				place = null;
+			}
 		} else {
-			place = null;
+			place = new PlaceRecord(location[0]);
+			if (location[0].distanceTo(mockLoc1) < 100) {
+				place.setCountryName("United States");
+				place.setPlace("The Greenhouse");
+				place.setFlagBitmap(mStubBitmap);
+                place.setFlagUrl("stub.jpg");
+			} else {
+				place.setCountryName("United States");
+				place.setPlace("Berwyn");
+				place.setFlagBitmap(mStubBitmap);
+                place.setFlagUrl("stub.jpg");
+			}
 		}
-		
+
 		return place;
 
 	}
@@ -82,9 +118,9 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 			result = sb.toString();
 
 		} catch (MalformedURLException e) {
-			
+
 		} catch (IOException e) {
-			
+
 		} finally {
 			try {
 				if (null != in) {
@@ -101,8 +137,6 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 
 	private Bitmap getFlagFromURL(String flagUrl) {
 
-		PlaceViewActivity.log("Starting Place Download");
-		
 		InputStream in = null;
 
 		try {
@@ -113,9 +147,9 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 			return BitmapFactory.decodeStream(in);
 
 		} catch (MalformedURLException e) {
-			Log.e("DEBUG",e.toString());
+			Log.e("DEBUG", e.toString());
 		} catch (IOException e) {
-			Log.e("DEBUG",e.toString());
+			Log.e("DEBUG", e.toString());
 		} finally {
 			try {
 				if (null != in) {
@@ -126,8 +160,9 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 			}
 			mHttpUrl.disconnect();
 		}
-		
-		return BitmapFactory.decodeResource(mParent.get().getResources(), R.drawable.stub);
+
+		return BitmapFactory.decodeResource(mParent.get().getResources(),
+				R.drawable.stub);
 	}
 
 	private static PlaceRecord placeDataFromXml(String xmlString) {
@@ -135,7 +170,6 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 		String countryName = "";
 		String countryCode = "";
 		String placeName = "";
-		String elevation = "";
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -160,8 +194,6 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 							countryCode = curr2.getTextContent();
 						} else if (curr2.getNodeName().equals("name")) {
 							placeName = curr2.getTextContent();
-						} else if (curr2.getNodeName().equals("elevation")) {
-							elevation = curr2.getTextContent();
 						}
 					}
 				}
@@ -176,13 +208,12 @@ public class PlaceDownloaderTask extends AsyncTask<Location, Void, PlaceRecord> 
 			e.printStackTrace();
 		}
 
-		return new PlaceRecord(
-				generateFlagURL(countryCode.toLowerCase()),
-				countryName, placeName, elevation);
+		return new PlaceRecord(generateFlagURL(countryCode.toLowerCase()),
+				null, countryName, placeName, -1, -1);
 	}
 
 	private static String generateURL(String username, Location location) {
-		
+
 		return "http://www.geonames.org/findNearbyPlaceName?username="
 				+ username + "&style=full&lat=" + location.getLatitude()
 				+ "&lng=" + location.getLongitude();

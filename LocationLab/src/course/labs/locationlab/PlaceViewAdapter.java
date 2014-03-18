@@ -71,6 +71,7 @@ public class PlaceViewAdapter extends BaseAdapter {
 	public boolean intersects (Location location) {
 		for (PlaceRecord item : list) {
 			if (item.intersects(location)) {
+				PlaceViewActivity.log("You already have this location badge");
 				return true;
 			}
 		}
