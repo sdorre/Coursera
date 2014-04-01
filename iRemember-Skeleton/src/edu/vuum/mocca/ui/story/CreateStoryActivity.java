@@ -288,7 +288,7 @@ public class CreateStoryActivity extends StoryActivityBase {
 		
 		// TODO - Add the filename to the Intent as an extra. Use the Intent-extra name
 		// from the MediaStore class, EXTRA_OUTPUT
-		cameraVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fragment.fileUri.getPath());
+		cameraVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fragment.fileUri);
 		
 		// TODO - Specify as an extra that the video quality should be HIGH. Use the
 		// Intent-extra name, EXTRA_VIDEO_QUALITY, from the MediaStore class
